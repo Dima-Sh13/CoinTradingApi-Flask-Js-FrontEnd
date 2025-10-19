@@ -1,9 +1,9 @@
 from my_coin import app
 from flask import redirect, render_template, requests, jsonify
-import http
+import http import 
 
 
 
-@app.route("/", methods = ["GET", "POST"])
+@app.route("/")
 def index():
     return render_template("index.html")
