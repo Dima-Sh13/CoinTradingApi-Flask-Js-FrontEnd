@@ -1,6 +1,5 @@
 from my_coin import app
 from flask import redirect, render_template, requests, jsonify
-import http import 
 
 
 
