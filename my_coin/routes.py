@@ -21,7 +21,7 @@ def prueba():
 
 @app.route("/api/prueba", methods = ["POST"])
 def prueba1():
-    datos = request.json
+    datos = request
     return print(datos)
 
    
