@@ -4,8 +4,20 @@ let buyPetition = new XMLHttpRequest()
 let sellPetiton = new XMLHttpRequest
 let tradePetition = new XMLHttpRequest
 
-function handlerPetition_200(){
+// function handlerPetition_200(){}
+
     
+
+function prueba(){
+    let entrada = document.getElementById("prueba")
+
+    buyPetition.open("POST","http://localhost:5000/api/prueba")
+    buyPetition.onerror = function(){alert("nO HA FUNCIONADO")}
+    buyPetition.send(entrada)
+
+
+
+
 
 
 }

@@ -1,6 +1,7 @@
 import sqlite3
 import requests
 from config import API_KEY
+from my_coin.conection import *
 
 
 def json_cleaner(json):

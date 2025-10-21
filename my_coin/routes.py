@@ -17,6 +17,13 @@ def prueba():
         "datos": datos,
         "status": "ok" 
     })
+
+
+@app.route("/api/prueba", methods = ["POST"])
+def prueba1():
+    datos = request.json
+    return print(datos)
+
    
     
     
