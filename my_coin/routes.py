@@ -36,8 +36,11 @@ def prueba1():
 
 @app.route("/api/v1/tasa/<moneda_from>/<moneda_to>")
 def exchange_rate(moneda_from,moneda_to):
+    api = ConexionApi()
+    if moneda_from == "EUR":
+        api.get_coin_price()
+
     
-    pass
 
 
 @app.route("/api/v1/movimientos")

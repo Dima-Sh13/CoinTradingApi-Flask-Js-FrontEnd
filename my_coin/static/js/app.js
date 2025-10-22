@@ -3,7 +3,7 @@ let show_movements = new XMLHttpRequest()
 let buyPetition = new XMLHttpRequest()
 let sellPetiton = new XMLHttpRequest()
 let tradePetition = new XMLHttpRequest()
-
+let exchangePetition = new XMLHttpRequest()
 
 // function handlerPetition_200()
 
@@ -14,6 +14,19 @@ function movements(){
     show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
     show_movements.send();
 }
+
+function exchange(){
+    let moneda_a_cambiar = document.getElementById("moneda_from_form");
+    let moneda_to = document.getElementById("moneda_to_form");
+    
+    
+    exchangePetition.open("GET",`http://localhost:5000/api/v1/${moneda_a_cambiar}/${moneda_to}`);
+    exchangePetition.onload = exchange_rate
+    exchangePetition.onerror = function(){alert("No se ha podido completar la peticion de movimientos")};
+    exchangePetition.send();
+}
+    
+
 
 
 
@@ -153,6 +166,18 @@ function buyPetition_handler(){
 
 */
 
+function exchange_rate(){
+    const exchange_coin_rate = JSON.parse(this.responseText)
+    const valor_calculado = exchange_coin_rate.data
+    let valor_a_cambiar = document.getElementById("amount_from_form");
+    let valor_a_recibir = document.getElementById("amount_to_form")
+    valor_a_recibir.innerHTML = valor_calculado
+
+
+
+
+
+}
 
 window.onload = function(){
     //movements()
@@ -162,6 +187,7 @@ window.onload = function(){
     let alta =  document.getElementById("btn-alta");
     alta.addEventListener("click", buyMovement)
     
+    exchangePetition.open("GET", "")
     
 }
 

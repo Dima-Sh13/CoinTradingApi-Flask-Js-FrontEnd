@@ -26,3 +26,6 @@ def buy_coin(eur, coin_id):
     coin_price= api.get_coin_price(coin_id)
     units_to_buy= eur/float(coin_price)
     return units_to_buy
+
+def get_coin_id():
+    pass
