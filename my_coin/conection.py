@@ -41,16 +41,17 @@ class ConexionApi(Session):
         
 
 class ConexionBD():
-    def __init__(self,querySql):
+    def __init__(self):
         self.con = sqlite3.connect(DATA_BASE)
         self.cur = self.con.cursor()
         
     def get_coin_amount(self, querySql):
         self.res = self.cur.execute(querySql)
 
-    def buy_coin(self,coin_to):
-        self.res = self.cur.execute(f"INSERT INTO movements (date, time, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES () ")
-
+    def buy_coin(self,params=[]):
+        self.res = self.cur.execute(f"INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES (?,?,?,?,?,?) ",params)
+        self.con.commit()
+        self.con.close()
     def trade_coin(self,coin_from, coin_to):
         pass
 

@@ -91,10 +91,10 @@ function hideForm(){
 }
 
 function buyMovement(){
-    const moneda_from = document.getElementById('moneda_from').value;
-    const amount_from = document.getElementById('amount_from').value;
-    const moneda_to = document.getElementById("moneda_to").value
-    const amount_to = document.getElementById('amount_to').value;
+    const moneda_from = document.getElementById('moneda_from_form').value;
+    const amount_from = document.getElementById('amount_from_form').value;
+    const moneda_to = document.getElementById("moneda_to_form").value
+    const amount_to = document.getElementById('amount_to_form').value;
 
     //control de ingreso de datos
     if(moneda_from === ""){
@@ -106,11 +106,11 @@ function buyMovement(){
         return
     }
     //formateo de datos para capturar fecha actual yyyy-mm-dd
-    const hoy = new Date().toISOString()[0];
+    const hoy = new Date().toISOString().split[0];
     
 
     buyPetition.open("POST","http://localhost:5000/api/v1/compra");
-    buyPetition.onload = buyPetition_handler  
+    // buyPetition.onload = buyPetition_handler  
     buyPetition.onerror = function(){alert("No se ha podido completar la peticion post")}
     buyPetition.setRequestHeader("Content-Type","application/json")  
 
@@ -124,13 +124,13 @@ function buyMovement(){
         "time":hoy
         }
     )
-
+    console.log("por aqui pasa")
     buyPetition.send( data_json );
 }
-
+/*
 function buyPetition_handler(){
     if(this.readyState === 4){//para verificar si es una peticion http
-        if(this.status === 201){//es para saber si el estado de codigo es el correcto 
+        if(this.status === 200){//es para saber si el estado de codigo es el correcto 
            
             console.log("Registro correcto!");
             //limpiar inputs
@@ -138,11 +138,11 @@ function buyPetition_handler(){
             //ocultar formulario
             hideForm();
             //refrescar lista  
-            /*  
+            
             show_movements.open("GET","http://localhost:5000/api/v1/movimientos");
             show_movements.onload = show_movements_handler
             show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
-            show_movements.send(); */
+            show_movements.send(); 
 
 
         }else{
@@ -151,6 +151,7 @@ function buyPetition_handler(){
     }
 }
 
+*/
 
 
 window.onload = function(){

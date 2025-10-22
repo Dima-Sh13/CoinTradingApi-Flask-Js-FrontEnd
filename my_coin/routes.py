@@ -3,6 +3,9 @@ from flask import redirect, render_template, request, jsonify
 from my_coin.conection import *
 import requests
 from my_coin.models import *
+from datetime import datetime
+ahora = datetime.now()
+t_now = ahora.strftime("%Y-%m-%d %H:%M:%S")
 
 
 
@@ -45,8 +48,18 @@ def all_movements():
 
 @app.route("/api/v1/compra", methods=["POST"])
 def buy_coin():
+    bd=ConexionBD()
+    api = ConexionApi()
+    pu = api.get_coin_price(1)
     datos = request.json
-    return print(datos)
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],datos["amount_to"],pu])
+    bd.con.close()
+    return jsonify({
+        "message":"Compra Realizada",
+        "status":"ok"
+
+    })
+
 
     
 
