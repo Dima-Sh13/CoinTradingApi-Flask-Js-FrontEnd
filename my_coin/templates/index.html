@@ -3,16 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <title>MyCoin</title>
 </head>
-<body>
-    <form method="post" >
-        <input type="text" id="prueba">
-        
 
-    </form>
-    <button id="enviar">enviar</button>
+<body>
+    <header>
+        <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1" style="font-size: xx-large;">MyCoin</span>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="container">
+         <table id="movements_table">
+            <tr>
+                <th>Fecha</th>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            <button id="btn-buy">Comprar</button>    
+
+            <article id="trading_form" class="inactive">
+                <form id="movements_form" method="post">
+                    <input type="text" name="moneda_from" id="moneda_from_form" placeholder="Introduzca la moneda que desea vender">
+                    <input type="text" name="amount_from" id="amount_from_from" placeholder="Introduzca la cantidad a vender" autocomplete="off"> 
+                    <input type="text" name="moneda_to" id="moneda_to_form"  placeholder="Introduzca la moneda que desea comprar">
+                    <input type="text" name="amount_to" id="amount_to_form"  placeholder="Introduzca la cantidad que desea comprar">
+                </form>
+                <div>
+                    <button id="btn-alta">
+                        realizar compra
+                    </button>
+                </div>    
+                
+                    
+           
+             
+        </article>
+
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+    
 </body>
 </html>

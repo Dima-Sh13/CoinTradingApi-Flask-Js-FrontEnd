@@ -21,16 +21,21 @@ class ConexionApi(Session):
         data = response.json()
 
         return data
-    def get_coin_price(self,id,amount):
+    def get_coin_price(self,id):
+        """
+        Funcion para conseguir el precio unitario de cada moneda, se debe pasar el id
+        de la moneda en int.
+        Devuelve el precio unitario formateado.
+        """
         self.params = {
             "id":id,
-            "amount":amount,
+            "amount":1,
              "convert": "EUR"  
         }
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
         unit_price = data["data"]["quote"]["EUR"]["price"]   
-        return f"{unit_price:,.2f}"
+        return f"{unit_price:.2f}"
 
     
         

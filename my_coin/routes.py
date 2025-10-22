@@ -5,6 +5,7 @@ import requests
 from my_coin.models import *
 
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -21,16 +22,37 @@ def prueba():
 
 @app.route("/api/prueba")
 def prueba1():
-    api = ConexionApi()
-    datos = api.get_coin_price(1,1)
+    
+    datos = buy_coin(95000,1)
 
     return jsonify({
-        "datos": api.get_coin_price(1,1),
+        "datos": datos,
         "status": "Ok"
     })
         
 
+@app.route("/api/v1/tasa/<moneda_from>/<moneda_to>")
+def exchange_rate(moneda_from,moneda_to):
+    
+    pass
 
+
+@app.route("/api/v1/movimientos")
+def all_movements():
+    
+
+    pass
+
+@app.route("/api/v1/compra", methods=["POST"])
+def buy_coin():
+    datos = request.json
+    return print(datos)
+
+    
+
+@app.route("/api/v1/status")
+def show_status():
+    pass
 
    
     

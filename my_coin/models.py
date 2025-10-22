@@ -21,3 +21,8 @@ def json_cleaner(json):
     
     return json_clean
         
+def buy_coin(eur, coin_id):
+    api = ConexionApi()
+    coin_price= api.get_coin_price(coin_id)
+    units_to_buy= eur/float(coin_price)
+    return units_to_buy
