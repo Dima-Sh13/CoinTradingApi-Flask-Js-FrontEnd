@@ -2,6 +2,10 @@ import sqlite3
 import requests
 from config import API_KEY
 from my_coin.conection import *
+from datetime import datetime
+from my_coin.conection import *
+t_now = datetime.now()
+
 
 
 def json_cleaner(json):

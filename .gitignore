@@ -6,6 +6,10 @@ venv/
 config.py
 
 
+# Local scratch file (do not commit)
+sucio.py
+
+
 # Python cache directories and bytecode
 __pycache__/
 *.py[cod]

@@ -6,20 +6,34 @@ from config import API_KEY,DATA_BASE
 class ConexionApi(Session):
     def __init__(self):
         super().__init__()
-        self.BASE_URL = "https://pro-api.coinmarketcap.com/"
+        self.BASE_URL = "https://pro-api.coinmarketcap.com"
         self.headers.update({
             'Accepts': 'application/json',
             'X-CMC_PRO_API_KEY': API_KEY,
             })
+       
+
+    def get_first_10(self):
         self.params = { 
             "limit":"10",
             "convert": "EUR"}
-
-    def get_first_10(self):
         response = self.get(f"{self.BASE_URL}/v1/cryptocurrency/listings/latest")
         data = response.json()
+
         return data
+    def get_coin_price(self,id,amount):
+        self.params = {
+            "id":id,
+            "amount":amount,
+             "convert": "EUR"  
+        }
+        response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
+        data = response.json()
+        unit_price = data["data"]["quote"]["EUR"]["price"]   
+        return f"{unit_price:,.2f}"
+
     
+        
 
 class ConexionBD():
     def __init__(self,querySql):

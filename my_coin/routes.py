@@ -19,10 +19,18 @@ def prueba():
     })
 
 
-@app.route("/api/prueba", methods = ["POST"])
+@app.route("/api/prueba")
 def prueba1():
-    datos = request
-    return print(datos)
+    api = ConexionApi()
+    datos = api.get_coin_price(1,1)
+
+    return jsonify({
+        "datos": api.get_coin_price(1,1),
+        "status": "Ok"
+    })
+        
+
+
 
    
     
