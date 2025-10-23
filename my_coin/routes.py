@@ -6,16 +6,18 @@ from my_coin.models import *
 from datetime import datetime
 ahora = datetime.now()
 t_now = ahora.strftime("%Y-%m-%d %H:%M:%S")
-from flask_cors import CORS
-from my_coin import app
 
-CORS(app)
+from my_coin import app
+from my_coin.tools import *
+
 
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    bd=ConexionBD()
+    all_movements = bd.get_all_movements()
+    return render_template("index.html", datos = all_movements)
 
 @app.route("/api/v1/endpoint1")
 def prueba():
@@ -58,11 +60,11 @@ def buy_coin():
     bd=ConexionBD()
     api = ConexionApi()
     datos = request.json
-    pu = api.get_coin_price(datos["moneda_to"].capitalize())
-    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin(datos["amount_from"],datos["moneda_to"]),pu])
+    pu = api.get_coin_price(datos["moneda_to"])
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["amount_from"],datos["moneda_to"]),pu])
     bd.con.close()
     return jsonify({
-        "message":"Compra Realizada",
+        "message":datos,
         "status":"ok"
 
     })

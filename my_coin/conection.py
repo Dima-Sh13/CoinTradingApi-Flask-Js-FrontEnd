@@ -37,8 +37,8 @@ class ConexionApi(Session):
         }
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
-        #unit_price = data["data"]["quote"]["EUR"]["price"]   
-        return data#f"{unit_price:.2f}"
+        unit_price = data["data"]["quote"]["EUR"]["price"]   
+        return f"{unit_price:.2f}"
 
     
         
@@ -59,4 +59,10 @@ class ConexionBD():
         pass
 
     def sell_coin(self,coin_from):
-        pass  
+        pass 
+
+    def get_all_movements(self):
+        self.res = self.cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_EUR FROM movements;")
+        rows = self.cur.fetchall()
+        self.con.close()
+        return rows

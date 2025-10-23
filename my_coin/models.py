@@ -22,10 +22,10 @@ def json_cleaner(json):
     
     return json_clean
         
-def buy_coin(eur, coin_name):
+def buy_coin_exchange(eur, coin_name):
     api = ConexionApi()
     coin_price= api.get_coin_price(coin_name)
-    units_to_buy= eur/float(coin_price)
+    units_to_buy= int(eur)/float(coin_price)
     return units_to_buy
 
 def get_coin_id():
