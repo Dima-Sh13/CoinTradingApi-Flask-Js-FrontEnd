@@ -1,4 +1,4 @@
-from my_coin import app
+from . import app
 from flask import redirect, render_template, request, jsonify
 from my_coin.conection import *
 import requests
