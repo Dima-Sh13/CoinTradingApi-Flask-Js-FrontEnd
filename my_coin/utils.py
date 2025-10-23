@@ -8,5 +8,7 @@ COIN_ID = {
     "USDC": 3408,
     "TRON": 1958,
     "Dogecoin": 74,
-    "Cardano": 2010
+    "Cardano": 2010,
+    "Polkadot": 6636,
+    "Polygon":	3890
 }

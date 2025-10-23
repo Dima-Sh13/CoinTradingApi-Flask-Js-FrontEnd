@@ -6,6 +6,10 @@ from my_coin.models import *
 from datetime import datetime
 ahora = datetime.now()
 t_now = ahora.strftime("%Y-%m-%d %H:%M:%S")
+from flask_cors import CORS
+from my_coin import app
+
+CORS(app)
 
 
 
@@ -54,7 +58,7 @@ def buy_coin():
     bd=ConexionBD()
     api = ConexionApi()
     datos = request.json
-    pu = api.get_coin_price(datos["moneda_to"])
+    pu = api.get_coin_price(datos["moneda_to"].capitalize())
     bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin(datos["amount_from"],datos["moneda_to"]),pu])
     bd.con.close()
     return jsonify({

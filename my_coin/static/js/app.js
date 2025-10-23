@@ -9,7 +9,7 @@ let exchangePetition = new XMLHttpRequest()
 
 
 function movements(){
-    show_movements.open("GET","http://localhost:5000/api/v1/movimientos");
+    show_movements.open("GET","/api/v1/movimientos");
     show_movements.onload = show_movements_handler;
     show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
     show_movements.send();
@@ -20,7 +20,7 @@ function exchange(){
     let moneda_to = document.getElementById("moneda_to_form");
     
     
-    exchangePetition.open("GET",`http://localhost:5000/api/v1/${moneda_a_cambiar}/${moneda_to}`);
+    exchangePetition.open("GET",`/api/v1/${moneda_a_cambiar}/${moneda_to}`);
     exchangePetition.onload = exchange_rate
     exchangePetition.onerror = function(){alert("No se ha podido completar la peticion de movimientos")};
     exchangePetition.send();
@@ -118,11 +118,9 @@ function buyMovement(){
         alert("Debes agregar cantidad positiva");
         return
     }
-    //formateo de datos para capturar fecha actual yyyy-mm-dd
-    const hoy = new Date().toISOString().split[0];
     
 
-    buyPetition.open("POST","http://localhost:5000/api/v1/compra");
+    buyPetition.open("POST","/api/v1/compra");
     // buyPetition.onload = buyPetition_handler  
     buyPetition.onerror = function(){alert(" es aqui donde falla")}
     buyPetition.setRequestHeader("Content-Type","application/json")  
@@ -134,29 +132,29 @@ function buyMovement(){
         "amount_from":amount_from,
         "moneda_from":moneda_from,
         "amount_to":amount_to,
-        "time":hoy
         }
+        
     )
     console.log("por aqui pasa")
     buyPetition.send( data_json );
 }
-/*
+
 function buyPetition_handler(){
     if(this.readyState === 4){//para verificar si es una peticion http
         if(this.status === 200){//es para saber si el estado de codigo es el correcto 
            
             console.log("Registro correcto!");
             //limpiar inputs
-            
+            /*
             //ocultar formulario
             hideForm();
             //refrescar lista  
             
-            show_movements.open("GET","http://localhost:5000/api/v1/movimientos");
+            show_movements.open("GET","/api/v1/movimientos");
             show_movements.onload = show_movements_handler
             show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
             show_movements.send(); 
-
+            */
 
         }else{
             alert("Se ha producido un error al intentar registrar el movimiento");
@@ -164,7 +162,7 @@ function buyPetition_handler(){
     }
 }
 
-*/
+
 
 function exchange_rate(){
     const exchange_coin_rate = JSON.parse(this.responseText)

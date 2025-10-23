@@ -2,6 +2,8 @@ import sqlite3
 from requests import Session
 import json
 from config import API_KEY,DATA_BASE
+from my_coin.utils import *
+from my_coin.tools import get_coin_id
 
 class ConexionApi(Session):
     def __init__(self):
@@ -27,8 +29,9 @@ class ConexionApi(Session):
         de la moneda en int.
         Devuelve el precio unitario formateado.
         """
+        coin_id = get_coin_id(coin_name.capitalize())
         self.params = {
-            "symbol":"BNB",
+            "id":coin_id,
             "amount":1,
              "convert": "EUR"  
         }
