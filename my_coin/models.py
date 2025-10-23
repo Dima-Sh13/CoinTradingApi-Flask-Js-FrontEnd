@@ -1,6 +1,7 @@
 import sqlite3
 import requests
 from config import API_KEY
+
 from my_coin.conection import *
 from datetime import datetime
 from my_coin.conection import *
@@ -21,9 +22,9 @@ def json_cleaner(json):
     
     return json_clean
         
-def buy_coin(eur, coin_id):
+def buy_coin(eur, coin_name):
     api = ConexionApi()
-    coin_price= api.get_coin_price(coin_id)
+    coin_price= api.get_coin_price(coin_name)
     units_to_buy= eur/float(coin_price)
     return units_to_buy
 

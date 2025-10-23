@@ -114,7 +114,7 @@ function buyMovement(){
         alert("Debes agregar un concepto");
         return
     }
-    if(amount_from == 0 || amount_to === ""){
+    if(amount_from == 0){
         alert("Debes agregar cantidad positiva");
         return
     }
@@ -124,7 +124,7 @@ function buyMovement(){
 
     buyPetition.open("POST","http://localhost:5000/api/v1/compra");
     // buyPetition.onload = buyPetition_handler  
-    buyPetition.onerror = function(){alert("No se ha podido completar la peticion post")}
+    buyPetition.onerror = function(){alert(" es aqui donde falla")}
     buyPetition.setRequestHeader("Content-Type","application/json")  
 
     //definir la estructura json y enviar

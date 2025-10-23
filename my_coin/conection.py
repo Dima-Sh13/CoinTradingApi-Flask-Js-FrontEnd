@@ -19,23 +19,23 @@ class ConexionApi(Session):
             "convert": "EUR"}
         response = self.get(f"{self.BASE_URL}/v1/cryptocurrency/listings/latest")
         data = response.json()
-
         return data
-    def get_coin_price(self,id):
+
+    def get_coin_price(self,coin_name):
         """
         Funcion para conseguir el precio unitario de cada moneda, se debe pasar el id
         de la moneda en int.
         Devuelve el precio unitario formateado.
         """
         self.params = {
-            "id":id,
+            "symbol":"BNB",
             "amount":1,
              "convert": "EUR"  
         }
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
-        unit_price = data["data"]["quote"]["EUR"]["price"]   
-        return f"{unit_price:.2f}"
+        #unit_price = data["data"]["quote"]["EUR"]["price"]   
+        return data#f"{unit_price:.2f}"
 
     
         

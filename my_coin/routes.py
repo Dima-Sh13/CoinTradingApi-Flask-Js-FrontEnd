@@ -16,7 +16,7 @@ def index():
 @app.route("/api/v1/endpoint1")
 def prueba():
     api = ConexionApi()
-    datos = json_cleaner(api.get_first_10())
+    datos =api.get_first_10()
     return jsonify ({
         "datos": datos,
         "status": "ok" 
@@ -53,9 +53,9 @@ def all_movements():
 def buy_coin():
     bd=ConexionBD()
     api = ConexionApi()
-    pu = api.get_coin_price(1)
     datos = request.json
-    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],datos["amount_to"],pu])
+    pu = api.get_coin_price(datos["moneda_to"])
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin(datos["amount_from"],datos["moneda_to"]),pu])
     bd.con.close()
     return jsonify({
         "message":"Compra Realizada",
@@ -68,8 +68,10 @@ def buy_coin():
 
 @app.route("/api/v1/status")
 def show_status():
-    pass
-
+    api = ConexionApi()
+    return jsonify({
+        "datos":api.get_coin_price("BTC")
+    })
    
     
     
