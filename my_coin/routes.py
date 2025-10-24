@@ -17,6 +17,8 @@ from my_coin.tools import *
 def index():
     bd=ConexionBD()
     all_movements = bd.get_all_movements()
+    if all_movements == []:
+        all_movements = ["No se han encontrado movimientos"]
     return render_template("index.html", datos = all_movements)
 
 @app.route("/api/v1/endpoint1")
