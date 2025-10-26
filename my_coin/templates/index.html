@@ -19,35 +19,72 @@
     </header>
     
     <section class="container">
-         <table id="movements_table">
-            <tr>
-                <th>Fecha</th>
-                <th>From</th>
-                <th>To</th>
-            </tr>
-            <button id="btn-buy">Comprar</button>   
+        
+
+        <table class="table table-striped-columns">
+            <thead>
+                <tr>
+                <th scope="col">Date/Time</th>
+                <th scope="col">From</th>
+                <th scope="col">Amount:</th>
+                <th scope="col">To</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Price per Unit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in datos %}
+                    <tr>
+                        
+                        <td>{{ i[0] }}</td>
+                        <td>{{ i[1] }}</td>
+                        <td>{{ i[2] }}</td>
+                        <td>{{ i[3] }}</td>
+                        <td>{{ i[4] }}</td>
+                        <td>{{ i[5] }}</td>
+                    </tr>
+                    
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <article id="trading_form" class="inactive">
+            <form id="movements_form" method="post">
+                <input type="text" name="moneda_from" id="moneda_from_form" placeholder="Introduzca la moneda que desea vender">
+                <input type="text" name="amount_from" id="amount_from_form" placeholder="Introduzca la cantidad a vender"> 
+                <input type="text" name="moneda_to" id="moneda_to_form"  placeholder="Introduzca la moneda que desea comprar">
+                <input type="text" name="amount_to" id="amount_to_form"  placeholder="Introduzca la cantidad que desea comprar">
+            </form>
+            
+
+            <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown link
+            </a>
+
+            <ul class="dropdown-menu" id="dropdown-avaible-coins">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+            </div>
+
             <div>
-                <p>{{ datos }}</p>
-
-            </div> 
-
-            <article id="trading_form" class="inactive">
-                <form id="movements_form" method="post">
-                    <input type="text" name="moneda_from" id="moneda_from_form" placeholder="Introduzca la moneda que desea vender">
-                    <input type="text" name="amount_from" id="amount_from_form" placeholder="Introduzca la cantidad a vender"> 
-                    <input type="text" name="moneda_to" id="moneda_to_form"  placeholder="Introduzca la moneda que desea comprar">
-                    <input type="text" name="amount_to" id="amount_to_form"  placeholder="Introduzca la cantidad que desea comprar">
-                </form>
-                <div>
-                    <button id="btn-alta">
-                        realizar compra
-                    </button>
-                </div>    
-                
+                <p>
+                    {{ amount }}
+                </p>
+            </div>
+            
+            <div>
+                <button id="btn-alta">
+                    realizar compra
+                </button>
+            </div>    
+            
+        </article>
                     
            
              
-        </article>
 
 
 

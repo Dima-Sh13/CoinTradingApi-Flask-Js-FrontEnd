@@ -16,10 +16,13 @@ from my_coin.tools import *
 @app.route("/")
 def index():
     bd=ConexionBD()
+    coin_amount = bd.get_coin_amount("bitcoin")
+    """
     all_movements = bd.get_all_movements()
     if all_movements == []:
         all_movements = ["No se han encontrado movimientos"]
-    return render_template("index.html", datos = all_movements)
+    """
+    return render_template("index.html", amount= coin_amount)
 
 @app.route("/api/v1/endpoint1")
 def prueba():

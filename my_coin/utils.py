@@ -1,14 +1,14 @@
 COIN_ID = {
-    "Bitcoin": 1,
-    "Ethereum": 1027,
-    "Tether USDt": 825,
-    "BNB": 1839,
-    "XRP": 52,
-    "Solana": 5426,
-    "USDC": 3408,
-    "TRON": 1958,
-    "Dogecoin": 74,
-    "Cardano": 2010,
-    "Polkadot": 6636,
-    "Polygon":	3890
+    "bitcoin": 1,
+    "ethereum": 1027,
+    "tether usdt": 825,
+    "bnb": 1839,
+    "xrp": 52,
+    "solana": 5426,
+    "usdc": 3408,
+    "tron": 1958,
+    "dogecoin": 74,
+    "cardano": 2010,
+    "polkadot": 6636,
+    "polygon": 3890
 }
