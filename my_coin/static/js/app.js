@@ -17,6 +17,7 @@ function movements(){
 
 function exchange(){
     let moneda_a_cambiar = document.getElementById("moneda_from_form");
+    let amount_from = document.getElementById("amount_from_form")
     let moneda_to = document.getElementById("moneda_to_form");
     
     
@@ -63,7 +64,7 @@ function show_movements_handler(){
                     const fila = document.createElement("tr");
 
                     const celda_time = document.createElement("td");
-                    celda_time.innerHTML = datos[i].date + datos[i].time;
+                    celda_time.innerHTML = datos[i].datetime;
                     fila.appendChild(celda_time);
 
                     const celda_moneda_from = document.createElement("td");
@@ -107,6 +108,7 @@ function buyMovement(){
     const moneda_from = document.getElementById('moneda_from_form').value;
     const amount_from = document.getElementById('amount_from_form').value;
     const moneda_to = document.getElementById("moneda_to_form").value
+    
     const amount_to = document.getElementById('amount_to_form').value;
 
     //control de ingreso de datos
@@ -165,28 +167,34 @@ function buyPetition_handler(){
 
 
 function exchange_rate(){
-    const exchange_coin_rate = JSON.parse(this.responseText)
-    const valor_calculado = exchange_coin_rate.data
-    let valor_a_cambiar = document.getElementById("amount_from_form");
-    let valor_a_recibir = document.getElementById("amount_to_form")
-    valor_a_recibir.innerHTML = valor_calculado
+    const exchange_coin_rate = JSON.parse(this.responseText);
+    const valor_calculado = exchange_coin_rate.data;
+    
+    let valor_a_recibir = document.getElementById("amount_to_form");
+    valor_a_recibir.value = valor_calculado
 
 
 
 
 
 }
+//let buy = document.getElementById("btn-buy");
+ //buy.addEventListener("click", viewForm)
 
 window.onload = function(){
     //movements()
-    let buy = document.getElementById("btn-buy");
-    buy.addEventListener("click", viewForm)
    
     let alta =  document.getElementById("btn-alta");
     alta.addEventListener("click", buyMovement)
     
-    exchangePetition.open("GET", "")
-    
+    let get_exchange = document.getElementById("moneda_to_form")
+    get_exchange.addEventListener("click", exchange)
+    /*
+    show_movements.open("GET","/api/v1/movimientos");
+    show_movements.onload = show_movements_handler
+    show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
+    show_movements.send(); 
+    */
 }
 
 

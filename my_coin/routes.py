@@ -49,7 +49,7 @@ def prueba1():
 def exchange_rate(moneda_from,moneda_to):
     api = ConexionApi()
     if moneda_from == "EUR":
-        api.get_coin_price()
+        api.get_coin_price(moneda_to)
 
     
 

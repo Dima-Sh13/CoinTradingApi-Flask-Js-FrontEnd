@@ -22,7 +22,7 @@
     <section class="container">
         
 
-        <table class="table table-striped-columns">
+        <table class="table table-striped-columns" id="movements_table">
             <thead>
                 <tr>
                 <th scope="col">Date/Time</th>
@@ -60,24 +60,44 @@
         </article>        
             
         <article>
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Your Coins
-            </button>
-            <div class="dropdown">
-                <ul class="dropdown-menu">
-                    
-                    <li><a class="dropdown-item">Action</a></li>
-                    <li><a class="dropdown-item">Another action</a></li>
-                    <li><a class="dropdown-item">Something else here</a></li>
-                </ul>
-            </div>
-
             <div>
-                <p>
-                    {{ amount }}
-                </p>
-
+                <select id="moneda_from_form" class="form-select" style="width: 30%;" aria-placeholder="Your Coins:">
+                    <option selected>Your Coins:</option>
+                    {% for row in amount %}
+                    <option role="button" data-bs-toggle="collapse" data-bs-target="#amount_from_form" aria-expanded="false" aria-controls="amount_from_form" value="{{ row[0] }}">{{ row[0] }}. Wallet: {{ row[1] }}</option>
+                    {% endfor %}
+                </select>
+                
+                <select id="moneda_to_form" class="form-select collapse" style="width: 30%;">
+                    <option selected>Avaiable Coins:</option>
+                    
+                    <option role="button" data-bs-toggle="collapse" data-bs-target="#amount_to_form" aria-expanded="false" aria-controls="amount_to_form" value="bitcoin">bitcoin</option>
+                    
+                </select>
             </div>
+            <p>
+                <form>    
+                    <div class="collapse" id="amount_from_form">
+                        
+                        <input type="text" placeholder="amount">
+                        
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#moneda_to_form" aria-expanded="false" aria-controls="moneda_to_form">
+                            Seguir
+                        </button>
+                    </div>
+                    <div class="collapse" id="amount_to_form">
+                        <input type="text" placeholder="amount">
+                        <button class="btn btn-primary" type="submit" data-bs-toggle="collapse" data-bs-target="#amount_from_form" aria-expanded="false" aria-controls="amount_from_form">
+                            Submit
+                        </button>
+
+                    </div>
+                </form>
+            </p>
+                    
+
+
+            
 
 
             

@@ -74,14 +74,16 @@ class ConexionBD():
             cur.execute(
                 """
                 SELECT
-                  COALESCE(SUM(CASE WHEN coin_to   = ? THEN amount_to   ELSE 0 END), 0)
-                - COALESCE(SUM(CASE WHEN coin_from = ? THEN amount_from ELSE 0 END), 0)
-                  
+                  ? AS coin,
+                  COALESCE(SUM(CASE WHEN LOWER(coin_to)   = LOWER(?) THEN amount_to   ELSE 0 END), 0)
+                - COALESCE(SUM(CASE WHEN LOWER(coin_from) = LOWER(?) THEN amount_from ELSE 0 END), 0)
+                  AS amount
                 FROM movements;
-                """, (coin, coin)
+                """,
+                (coin, coin, coin)
             )
-            wallet = cur.fetchall()
-        return wallet
+            row = cur.fetchall()  
+        return row
 
     def update_wallet(self, coin):
         amount = self.get_coin_amount(coin)
