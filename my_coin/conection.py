@@ -45,48 +45,54 @@ class ConexionApi(Session):
 
 class ConexionBD():
     def __init__(self):
-        self.con = sqlite3.connect(DATA_BASE)
-        self.cur = self.con.cursor()
-        
-    
+        self.db_path = DATA_BASE
 
-    def buy_coin(self,params=[]):
-        self.res = self.cur.execute(f"INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES (?,?,?,?,?,?) ",params)
-        self.con.commit()
-        self.con.close()
-    def trade_coin(self,coin_from, coin_to):
+    def buy_coin(self, params=[]):
+        with sqlite3.connect(self.db_path, timeout=10) as con:
+            cur = con.cursor()
+            cur.execute(
+                "INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES (?,?,?,?,?,?)",
+                params
+            )
+
+    def trade_coin(self, coin_from, coin_to):
         pass
 
-    def sell_coin(self,coin_from):
-        pass 
+    def sell_coin(self, coin_from):
+        pass
 
     def get_all_movements(self):
-        self.res = self.cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_EUR FROM movements;")
-        rows = self.cur.fetchall()
-        self.con.close()
+        with sqlite3.connect(self.db_path, timeout=10) as con:
+            cur = con.cursor()
+            cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_EUR FROM movements;")
+            rows = cur.fetchall()
         return rows
-    
-    def get_coin_amount(self,coin):
-        
-        self.res = self.cur.execute(
-            """SELECT
-            COALESCE(SUM(CASE WHEN coin_to   = ? THEN amount_to   ELSE 0 END), 0)
-            - COALESCE(SUM(CASE WHEN coin_from = ? THEN amount_from ELSE 0 END), 0)
-            AS saldo
-            FROM movements;""",(coin,coin))
-        
-        wallet = self.cur.fetchone()[0]
-        self.con.close()
 
+    def get_coin_amount(self, coin):
+        with sqlite3.connect(self.db_path, timeout=10) as con:
+            cur = con.cursor()
+            cur.execute(
+                """
+                SELECT
+                  COALESCE(SUM(CASE WHEN coin_to   = ? THEN amount_to   ELSE 0 END), 0)
+                - COALESCE(SUM(CASE WHEN coin_from = ? THEN amount_from ELSE 0 END), 0)
+                  
+                FROM movements;
+                """, (coin, coin)
+            )
+            wallet = cur.fetchall()
         return wallet
-    
+
     def update_wallet(self, coin):
-        amount = self.get_coin_amount()
-        self.res = self.cur.execute("""
-            INSERT INTO wallet (coin, amount)
-            VALUES (?, ?)
-            ON CONFLICT(coin) DO UPDATE SET amount = excluded.amount;
-        """, (coin, amount))
-        self.con.commit()
-        self.con.close()
-        
+        amount = self.get_coin_amount(coin)
+        with sqlite3.connect(self.db_path, timeout=10) as con:
+            cur = con.cursor()
+            cur.execute(
+                """
+                INSERT INTO wallet (coin, amount)
+                VALUES (?, ?)
+                ON CONFLICT(coin) DO UPDATE SET amount = excluded.amount;
+                """,
+                (coin, amount)
+            )
+

@@ -17,12 +17,12 @@ from my_coin.tools import *
 def index():
     bd=ConexionBD()
     coin_amount = bd.get_coin_amount("bitcoin")
-    """
     all_movements = bd.get_all_movements()
+    
     if all_movements == []:
         all_movements = ["No se han encontrado movimientos"]
-    """
-    return render_template("index.html", amount= coin_amount)
+    
+    return render_template("index.html", datos = all_movements, amount= coin_amount)
 
 @app.route("/api/v1/endpoint1")
 def prueba():
@@ -56,6 +56,12 @@ def exchange_rate(moneda_from,moneda_to):
 
 @app.route("/api/v1/movimientos")
 def all_movements():
+    bd=ConexionBD()
+    all_movements = bd.get_all_movements()
+    return jsonify({
+        "datos": all_movements,
+        "status": "Ok"
+    })
     
 
     pass
