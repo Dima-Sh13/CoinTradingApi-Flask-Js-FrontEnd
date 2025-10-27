@@ -3,7 +3,7 @@ from requests import Session
 import json
 from config import API_KEY,DATA_BASE
 from my_coin.utils import *
-from my_coin.tools import get_coin_id
+from my_coin.tools import *
 
 class ConexionApi(Session):
     def __init__(self):
@@ -29,17 +29,19 @@ class ConexionApi(Session):
         de la moneda en int.
         Devuelve el precio unitario formateado.
         """
-        coin_id = get_coin_id(coin_name.capitalize())
+        coin_id = get_coin_id(string_normalization(coin_name))
+        id = 1
         self.params = {
-            "id":coin_id,
+            "id":id,
             "amount":1,
-             "convert": "EUR"  
+            "convert": "EUR",
+            
         }
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
-        unit_price = data["data"]["quote"]["EUR"]["price"]   
-        return f"{unit_price:.2f}"
-
+        #unit_price = data["data"]["quote"]["EUR"]["price"]   
+        #return f"{unit_price:.2f}"
+        return data
     
         
 
