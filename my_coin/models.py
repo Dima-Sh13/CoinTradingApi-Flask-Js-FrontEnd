@@ -39,5 +39,11 @@ def buy_coin_exchange(coin_from, coin_to, amount_from):
     
     return units_to_buy
 
-def get_coin_id():
-    pass
+def prueba():
+    api = ConexionApi()
+    prueba_id = {}
+    datos =api.get_first_10()
+    for i in datos["data"]:
+        prueba_id[i["name"]]= i["id"]
+
+    return prueba_id    

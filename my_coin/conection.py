@@ -17,7 +17,7 @@ class ConexionApi(Session):
 
     def get_first_10(self):
         self.params = { 
-            "limit":"10",
+            "limit":"100",
             "convert": "EUR"}
         response = self.get(f"{self.BASE_URL}/v1/cryptocurrency/listings/latest")
         data = response.json()
@@ -29,6 +29,7 @@ class ConexionApi(Session):
         de la moneda en int.
         Devuelve el precio unitario formateado.
         """
+        
         coin_id = get_coin_id(coin_name)
         
         self.params = {

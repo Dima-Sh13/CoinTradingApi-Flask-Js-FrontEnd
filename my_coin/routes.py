@@ -9,6 +9,7 @@ t_now = ahora.strftime("%Y-%m-%d %H:%M:%S")
 
 from my_coin import app
 from my_coin.tools import *
+from my_coin.utils import *
 
 
 
@@ -27,24 +28,17 @@ def index():
 @app.route("/api/v1/endpoint1")
 def prueba():
     api = ConexionApi()
+    
     datos =api.get_first_10()
+    get_coin_ids(datos, prueba_coin_id)
     return jsonify ({
-        "datos": datos,
+        "datos": prueba_coin_id,
         "status": "ok" 
     })
 
 
 
-@app.route("/api/prueba/<moneda>", methods =["POST"])
-def prueba1(moneda):
-    api = ConexionApi()
-    
-    datos = api.get_coin_price(moneda)
 
-    return jsonify({
-        "datos": datos,
-        "status": "Ok"
-    })
         
 
 @app.route("/api/v1/tasa/<moneda_from>/<moneda_to>", methods=["POST"])
@@ -81,10 +75,10 @@ def buy_coin():
     api = ConexionApi()
     datos = request.json
     pu = api.get_coin_price(datos["moneda_to"])
-    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["amount_from"],datos["moneda_to"]),pu])
-    bd.con.close()
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["moneda_from"],datos["moneda_to"]),pu])
+    
     return jsonify({
-        "message":datos,
+        "message":"Purchase Done!",
         "status":"ok"
 
     })
@@ -94,10 +88,7 @@ def buy_coin():
 
 @app.route("/api/v1/status")
 def show_status():
-    api = ConexionApi()
-    return jsonify({
-        "datos":api.get_coin_price("BTC")
-    })
+   pass
    
     
     
