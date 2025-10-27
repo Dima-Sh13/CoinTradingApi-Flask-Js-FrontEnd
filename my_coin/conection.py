@@ -23,7 +23,7 @@ class ConexionApi(Session):
         data = response.json()
         return data
 
-    def get_coin_price(self,coin_name):
+    def get_coin_price(self,coin_name, amount = 1):
         """
         Funcion para conseguir el precio unitario de cada moneda, se debe pasar el id
         de la moneda en int.
@@ -33,7 +33,7 @@ class ConexionApi(Session):
         
         self.params = {
             "id":coin_id,
-            "amount":1,
+            "amount":amount,
             "convert": "EUR",
             
         }
