@@ -29,19 +29,19 @@ class ConexionApi(Session):
         de la moneda en int.
         Devuelve el precio unitario formateado.
         """
-        coin_id = get_coin_id(string_normalization(coin_name))
-        id = 1
+        coin_id = get_coin_id(coin_name)
+        
         self.params = {
-            "id":id,
+            "id":coin_id,
             "amount":1,
             "convert": "EUR",
             
         }
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
-        #unit_price = data["data"]["quote"]["EUR"]["price"]   
-        #return f"{unit_price:.2f}"
-        return data
+        unit_price = get_price_from_json(data)  
+        return float(f"{unit_price:.2f}")
+        
     
         
 

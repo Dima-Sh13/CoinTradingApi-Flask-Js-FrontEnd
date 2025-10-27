@@ -33,19 +33,13 @@ def prueba():
         "status": "ok" 
     })
 
-@app.route("/api/hastaloscojones/<moneda>", methods =["POST"])
-def prueba2(moneda):
+
+
+@app.route("/api/prueba/<moneda>", methods =["POST"])
+def prueba1(moneda):
     api = ConexionApi()
     
-    price = api.get_coin_price(moneda)
-    return jsonify({
-        "datos":price
-
-    })
-@app.route("/api/prueba")
-def prueba1():
-    
-    datos = buy_coin(95000,1)
+    datos = api.get_coin_price(moneda)
 
     return jsonify({
         "datos": datos,
@@ -57,10 +51,10 @@ def prueba1():
 def exchange_rate(moneda_from,moneda_to):
     api = ConexionApi()
     
-    price_in_eur = api.get_coin_price(string_normalization(moneda_from))
-    purchased_amount = buy_coin_exchange(price_in_eur,string_normalization(moneda_to))
+    
+    purchased_amount = buy_coin_exchange(moneda_from,moneda_to)
     return jsonify({
-        "purchades-amount":price_in_eur, #purchased_amount,
+        "purchased-amount":purchased_amount,
         "status":"OK"
 
     })    

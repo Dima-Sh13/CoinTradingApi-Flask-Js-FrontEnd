@@ -25,7 +25,6 @@ def get_coin_id(coinName):
 def get_all_movements():
     pass    
 
-
-def string_normalization(cadena):
-    cadena_normal = cadena[:-1]
-    return cadena_normal
+def get_price_from_json(lista):
+    price = lista["data"]["quote"]["EUR"]["price"]
+    return price
