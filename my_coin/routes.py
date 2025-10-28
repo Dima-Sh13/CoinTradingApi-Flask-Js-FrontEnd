@@ -41,19 +41,22 @@ def prueba():
 
         
 
-@app.route("/api/v1/tasa/<moneda_from>/<moneda_to>", methods=["POST"])
-def exchange_rate(moneda_from,moneda_to):
+@app.route("/api/v1/tasa/<moneda_from>/<moneda_to>/<amount_from>", methods=["POST"])
+def exchange_rate(moneda_from,moneda_to,amount_from):
     
-    amount_from = request.json["amount"]
+    
     
     amount_aviable_to_purchase = buy_coin_exchange(moneda_from,moneda_to, amount_from)
     return jsonify({
-        "purchased-amount":amount_aviable_to_purchase,
+        "purchasedAmount":amount_aviable_to_purchase,
         "status":"OK"
 
     })    
-    
-
+    """
+    return jsonify({
+        "datos":amount_from
+    })
+    """
     
 
 

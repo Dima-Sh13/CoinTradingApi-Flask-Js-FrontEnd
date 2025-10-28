@@ -51,54 +51,33 @@
 
        
             
-        <article>
-            <div>
-                <select id="moneda_from_form" class="form-select" style="width: 30%;" aria-placeholder="Your Coins:">
-                    <option value="" selected>Your Coins:</option>
-                    {% for row in amount %}
-                    <option value="{{ row[0] }}">{{ row[0] }}. Wallet: {{ row[1] }}</option>
-                    {% endfor %}
-                </select>
-                
-                <select id="moneda_to_form" class="form-select" style="width: 30%;">
-                    <option selected>Avaiable Coins:</option>
-                    
-                    <option value="bitcoin">bitcoin</option>
-                    <option value="ethereum">ethereum</option>
-                    
-                </select>
-            </div>
-            <p>
-                <form>    
-                    <div >
-                        
-                        <input id="amount_from_form" type="text" placeholder="amount">
-                        
-                        
-                    </div>
-                    <div>
-                        <input id="amount_to" type="text">
-                    
+       
+        <div>
+            <select id="moneda_from_form" class="form-select" style="width:30%;">
+            <option value="" selected disabled>Tu moneda (selecciona)</option>
+            {% for row in amount %}
+                <option value="{{ row[0] }}">{{ row[0] }} - Wallet: {{ row[1] }}</option>
+            {% endfor %}
+            </select>
 
-                    
-                        <button onclick="calcularConversion()">Calcular</button>
-                    </div>
-                </form>
-            </p>
-                    
+            <select id="moneda_to_form" class="form-select" style="width:30%;">
+            <option value="" selected disabled>Moneda destino</option>
+            <option value="bitcoin">bitcoin</option>
+            <option value="ethereum">ethereum</option>
+            </select>
+        </div>
 
+        <div>
+            <!-- El input de cantidad debe tener id para que JS lo lea -->
+            <input id="amount_from_form" type="text" placeholder="amount">
+        </div>
 
-            
-
-
-            
-            <div>
-                <button id="btn-alta">
-                    realizar compra
-                </button>
-            </div>    
-            
-        </article>
+        <div>
+            <!-- amount_to como input para usar .value -->
+            <input id="amount_to" type="text">
+            <button id="calcular">Calcular</button>
+        </div>
+      
                     
            
              

@@ -43,7 +43,7 @@ function calcularConversion() {
     
 
     // Configurar la petición POST
-    exchangePetition.open("POST", `/api/v1/tasa/${coin_from}/${coin_to}`);
+    exchangePetition.open("POST", `/api/v1/tasa/${coin_from}/${coin_to}/${amount_from}`, true);
     exchangePetition.setRequestHeader("Content-Type", "application/json");
 
     // Definir qué hacer cuando la respuesta llegue
@@ -53,14 +53,16 @@ function calcularConversion() {
             try {
                 // Parsear la respuesta JSON
                 const data = JSON.parse(exchangePetition.responseText);
-
-                // Verificar que la respuesta tenga la clave esperada
-                if (data.purchased-amount !== undefined) {
+                document.getElementById("amount_to").value = data.purchasedAmount;
+                document.getElementById("amount_to").innerHTML = data.purchasedAmount;
+                /* Verificar que la respuesta tenga la clave esperada
+                if (data.purchasedAmount !== undefined) {
                     // Actualizar el valor del input con la cantidad recibida
-                    document.getElementById("amount_to").value = data.purchased-amount;
+                    document.getElementById("amount_to").value = data.purchasedAmount;
                 } else {
-                    alert("La respuesta del servidor no contiene 'purchased_amount'.");
+                    alert("La respuesta del servidor no contiene 'purchasedAmount'.");
                 }
+                */    
             } catch (error) {
                 console.error("Error al procesar la respuesta:", error);
                 alert("No se pudo interpretar la respuesta del servidor.");
@@ -75,9 +77,8 @@ function calcularConversion() {
         alert("No se pudo conectar con el servidor.");
     };
 
-    // Enviar el cuerpo de la petición como JSON
-    const payload = JSON.stringify({ amount: amount_from });
-    exchangePetition.send(payload);
+    
+    
 }
 
 
@@ -233,6 +234,10 @@ function exchange_rate(){
  //buy.addEventListener("click", viewForm)
 
 window.onload = function(){
+    let putoboton = document.getElementById("calcular")
+    putoboton.addEventListener("click", calcularConversion)
+    
+    
     //movements()
    /*
     let alta =  document.getElementById("btn-alta");
