@@ -27,7 +27,58 @@ function exchange(){
     exchangePetition.send();
 }
     
+function calcularConversion() {
+    // Capturar los valores del formulario
+    const coin_from = document.getElementById("moneda_from_form").value;
+    const amount_from = document.getElementById("amount_from_form").value;
+    const coin_to = document.getElementById("moneda_to_form").value;
 
+    // Validar que todos los campos estén completos
+    if (!coin_from || !coin_to || !amount_from) {
+        alert("Por favor, completa todos los campos antes de calcular.");
+        return;
+    }
+    
+  
+    
+
+    // Configurar la petición POST
+    exchangePetition.open("POST", `/api/v1/tasa/${coin_from}/${coin_to}`);
+    exchangePetition.setRequestHeader("Content-Type", "application/json");
+
+    // Definir qué hacer cuando la respuesta llegue
+    exchangePetition.onload = function () {
+        // Código 200–299 indica éxito
+        if (exchangePetition.status >= 200 && exchangePetition.status < 300) {
+            try {
+                // Parsear la respuesta JSON
+                const data = JSON.parse(exchangePetition.responseText);
+
+                // Verificar que la respuesta tenga la clave esperada
+                if (data.purchased-amount !== undefined) {
+                    // Actualizar el valor del input con la cantidad recibida
+                    document.getElementById("amount_to").value = data.purchased-amount;
+                } else {
+                    alert("La respuesta del servidor no contiene 'purchased_amount'.");
+                }
+            } catch (error) {
+                console.error("Error al procesar la respuesta:", error);
+                alert("No se pudo interpretar la respuesta del servidor.");
+            }
+        } else {
+            alert("Error en la petición: " + exchangePetition.status);
+        }
+    };
+
+    // Definir qué hacer si hay un error de red
+    exchangePetition.onerror = function () {
+        alert("No se pudo conectar con el servidor.");
+    };
+
+    // Enviar el cuerpo de la petición como JSON
+    const payload = JSON.stringify({ amount: amount_from });
+    exchangePetition.send(payload);
+}
 
 
 
@@ -183,13 +234,13 @@ function exchange_rate(){
 
 window.onload = function(){
     //movements()
-   
+   /*
     let alta =  document.getElementById("btn-alta");
     alta.addEventListener("click", buyMovement)
     
     let get_exchange = document.getElementById("moneda_to_form")
     get_exchange.addEventListener("click", exchange)
-    /*
+    
     show_movements.open("GET","/api/v1/movimientos");
     show_movements.onload = show_movements_handler
     show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}

@@ -43,10 +43,10 @@ def prueba():
 
 @app.route("/api/v1/tasa/<moneda_from>/<moneda_to>", methods=["POST"])
 def exchange_rate(moneda_from,moneda_to):
-    api = ConexionApi()
-    #amount_from = request["amount_from_form"]
     
-    amount_aviable_to_purchase = buy_coin_exchange(moneda_from,moneda_to, 100)
+    amount_from = request.json["amount"]
+    
+    amount_aviable_to_purchase = buy_coin_exchange(moneda_from,moneda_to, amount_from)
     return jsonify({
         "purchased-amount":amount_aviable_to_purchase,
         "status":"OK"

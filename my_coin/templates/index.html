@@ -49,48 +49,39 @@
             </tbody>
         </table>
 
-        <article id="trading_form" >
-            <form id="movements_form" method="post" class="inactive">
-                <input type="text" name="moneda_from" id="moneda_from_form" placeholder="Introduzca la moneda que desea vender">
-                <input type="text" name="amount_from" id="amount_from_form" placeholder="Introduzca la cantidad a vender"> 
-                <input type="text" name="moneda_to" id="moneda_to_form"  placeholder="Introduzca la moneda que desea comprar">
-                <input type="text" name="amount_to" id="amount_to_form"  placeholder="Introduzca la cantidad que desea comprar">
-            </form>
-                
-        </article>        
+       
             
         <article>
             <div>
                 <select id="moneda_from_form" class="form-select" style="width: 30%;" aria-placeholder="Your Coins:">
-                    <option selected>Your Coins:</option>
+                    <option value="" selected>Your Coins:</option>
                     {% for row in amount %}
-                    <option role="button" data-bs-toggle="collapse" data-bs-target="#amount_from_form" aria-expanded="false" aria-controls="amount_from_form" value="{{ row[0] }}">{{ row[0] }}. Wallet: {{ row[1] }}</option>
+                    <option value="{{ row[0] }}">{{ row[0] }}. Wallet: {{ row[1] }}</option>
                     {% endfor %}
                 </select>
                 
-                <select id="moneda_to_form" class="form-select collapse" style="width: 30%;">
+                <select id="moneda_to_form" class="form-select" style="width: 30%;">
                     <option selected>Avaiable Coins:</option>
                     
-                    <option role="button" data-bs-toggle="collapse" data-bs-target="#amount_to_form" aria-expanded="false" aria-controls="amount_to_form" value="bitcoin">bitcoin</option>
+                    <option value="bitcoin">bitcoin</option>
+                    <option value="ethereum">ethereum</option>
                     
                 </select>
             </div>
             <p>
                 <form>    
-                    <div class="collapse" id="amount_from_form">
+                    <div >
                         
-                        <input type="text" placeholder="amount">
+                        <input id="amount_from_form" type="text" placeholder="amount">
                         
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#moneda_to_form" aria-expanded="false" aria-controls="moneda_to_form">
-                            Seguir
-                        </button>
+                        
                     </div>
-                    <div class="collapse" id="amount_to_form">
-                        <input type="text" placeholder="amount">
-                        <button class="btn btn-primary" type="submit" data-bs-toggle="collapse" data-bs-target="#amount_from_form" aria-expanded="false" aria-controls="amount_from_form">
-                            Submit
-                        </button>
+                    <div>
+                        <input id="amount_to" type="text">
+                    
 
+                    
+                        <button onclick="calcularConversion()">Calcular</button>
                     </div>
                 </form>
             </p>
