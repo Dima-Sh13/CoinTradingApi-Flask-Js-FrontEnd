@@ -3,7 +3,7 @@ let show_movements = new XMLHttpRequest()
 let buyPetition = new XMLHttpRequest()
 let sellPetiton = new XMLHttpRequest()
 let tradePetition = new XMLHttpRequest()
-let exchangePetition = new XMLHttpRequest()
+
 
 // function handlerPetition_200()
 
@@ -28,58 +28,63 @@ function exchange(){
 }
     
 function calcularConversion() {
-    // Capturar los valores del formulario
-    const coin_from = document.getElementById("moneda_from_form").value;
-    const amount_from = document.getElementById("amount_from_form").value;
-    const coin_to = document.getElementById("moneda_to_form").value;
+    
+    const coin_from = (document.getElementById("moneda_from_form") || {}).value;
+    const coin_to   = (document.getElementById("moneda_to_form")   || {}).value;
+    const amount_to = (document.getElementById("amount_from_form") || {}).value;
 
-    // Validar que todos los campos estén completos
-    if (!coin_from || !coin_to || !amount_from) {
-        alert("Por favor, completa todos los campos antes de calcular.");
+    if (!coin_from || !coin_to || !amount_to) {
+        alert("Por favor completa todos los campos antes de calcular.");
         return;
     }
-    
-  
-    
 
-    // Configurar la petición POST
-    exchangePetition.open("POST", `/api/v1/tasa/${coin_from}/${coin_to}/${amount_from}`, true);
+    const amountNum = Number(String(amount_to).replace(",", "."));
+    if (!isFinite(amountNum) || amountNum <= 0) {
+        alert("Introduce una cantidad válida mayor que 0.");
+        return;
+    }
+
+    
+    const exchangePetition = new XMLHttpRequest();
+    const url = `/api/v1/tasa/${encodeURIComponent(coin_from)}/${encodeURIComponent(coin_to)}`;
+
+    exchangePetition.open("POST", url, true);
     exchangePetition.setRequestHeader("Content-Type", "application/json");
 
-    // Definir qué hacer cuando la respuesta llegue
     exchangePetition.onload = function () {
-        // Código 200–299 indica éxito
         if (exchangePetition.status >= 200 && exchangePetition.status < 300) {
             try {
-                // Parsear la respuesta JSON
                 const data = JSON.parse(exchangePetition.responseText);
-                document.getElementById("amount_to").value = data.purchasedAmount;
-                document.getElementById("amount_to").innerHTML = data.purchasedAmount;
-                /* Verificar que la respuesta tenga la clave esperada
-                if (data.purchasedAmount !== undefined) {
-                    // Actualizar el valor del input con la cantidad recibida
-                    document.getElementById("amount_to").value = data.purchasedAmount;
-                } else {
-                    alert("La respuesta del servidor no contiene 'purchasedAmount'.");
+                
+                const purchased = data.purchasedAmount ?? data.purchased_amount ?? null;
+                if (purchased === null) {
+                    console.error("Respuesta inesperada:", data);
+                    alert("Respuesta inesperada del servidor (comprueba consola).");
+                    return;
                 }
-                */    
-            } catch (error) {
-                console.error("Error al procesar la respuesta:", error);
-                alert("No se pudo interpretar la respuesta del servidor.");
+                
+                const out = document.getElementById("amount_to");
+                if (out) out.value = purchased;
+            } catch (err) {
+                console.error("Error parseando JSON:", err, exchangePetition.responseText);
+                alert("Respuesta inválida del servidor (ver consola).");
             }
         } else {
-            alert("Error en la petición: " + exchangePetition.status);
+            console.error("Petición fallida:", exchangePetition.status, exchangePetition.statusText);
+            alert("Error en la petición al servidor: " + exchangePetition.status);
         }
     };
 
-    // Definir qué hacer si hay un error de red
     exchangePetition.onerror = function () {
+        console.error("Error de red o petición abortada");
         alert("No se pudo conectar con el servidor.");
     };
 
     
-    
+    const datos = { amount: amountNum };
+    exchangePetition.send(JSON.stringify(datos));
 }
+
 
 
 
@@ -234,10 +239,7 @@ function exchange_rate(){
  //buy.addEventListener("click", viewForm)
 
 window.onload = function(){
-    let putoboton = document.getElementById("calcular")
-    putoboton.addEventListener("click", calcularConversion)
-    
-    
+   
     //movements()
    /*
     let alta =  document.getElementById("btn-alta");

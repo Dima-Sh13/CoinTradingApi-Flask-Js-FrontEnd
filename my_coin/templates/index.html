@@ -50,33 +50,33 @@
         </table>
 
        
-            
-       
-        <div>
-            <select id="moneda_from_form" class="form-select" style="width:30%;">
-            <option value="" selected disabled>Tu moneda (selecciona)</option>
-            {% for row in amount %}
-                <option value="{{ row[0] }}">{{ row[0] }} - Wallet: {{ row[1] }}</option>
-            {% endfor %}
-            </select>
+        <form id="conversion_form" onsubmit="event.preventDefault(); calcularConversion();">
+            <div>
+                <select id="moneda_from_form" class="form-select" style="width:30%;">
+                <option value="" selected disabled>Tu moneda (selecciona)</option>
+                {% for row in amount %}
+                    <option value="{{ row[0] }}">{{ row[0] }} - Wallet: {{ row[1] }}</option>
+                {% endfor %}
+                </select>
 
-            <select id="moneda_to_form" class="form-select" style="width:30%;">
-            <option value="" selected disabled>Moneda destino</option>
-            <option value="bitcoin">bitcoin</option>
-            <option value="ethereum">ethereum</option>
-            </select>
-        </div>
+                <select id="moneda_to_form" class="form-select" style="width:30%;">
+                <option value="" selected disabled>Moneda destino (selecciona)</option>
+                <option value="bitcoin">bitcoin</option>
+                <option value="ethereum">ethereum</option>
+                </select>
+            </div>
 
-        <div>
-            <!-- El input de cantidad debe tener id para que JS lo lea -->
-            <input id="amount_from_form" type="text" placeholder="amount">
-        </div>
+            <div>
+                <!-- El input de cantidad debe tener id para que JS lo lea -->
+                <input id="amount_from_form" type="text" placeholder="amount" inputmode="decimal" />
+            </div>
 
-        <div>
-            <!-- amount_to como input para usar .value -->
-            <input id="amount_to" type="text">
-            <button id="calcular">Calcular</button>
-        </div>
+            <div>
+                <!-- amount_to como input para usar .value -->
+                <input id="amount_to" type="text" readonly />
+                <button type="submit">Calcular</button>
+            </div>
+        </form>
       
                     
            

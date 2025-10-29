@@ -37,10 +37,28 @@ def prueba():
     })
 
 
+@app.route("/api/v1/tasa/<moneda_from>/<moneda_to>", methods=["POST"])
+def exchange_rate(moneda_from, moneda_to):
+    # intentamos parsear JSON de forma segura
+    data = request.get_json(force=True, silent=True)
+    if not data or "amount" not in data:
+        return jsonify({"status":"fail", "mensaje":"No se recibió 'amount' en JSON"}), 400
+    try:
+        amount_from = float(data["amount"])
+    except (TypeError, ValueError):
+        return jsonify({"status":"fail", "mensaje":"'amount' no es numérico"}), 400
+
+    amount_aviable_to_purchase = buy_coin_exchange(moneda_from, moneda_to, amount_from)
+    # devolvemos ambas formas (underscore y camelCase) para evitar problemas de clave
+    return jsonify({
+        "purchased_amount": amount_aviable_to_purchase,
+        "purchasedAmount": amount_aviable_to_purchase,
+        "status": "OK"
+    })
 
 
         
-
+"""
 @app.route("/api/v1/tasa/<moneda_from>/<moneda_to>/<amount_from>", methods=["POST"])
 def exchange_rate(moneda_from,moneda_to,amount_from):
     
@@ -52,11 +70,12 @@ def exchange_rate(moneda_from,moneda_to,amount_from):
         "status":"OK"
 
     })    
-    """
+    
     return jsonify({
         "datos":amount_from
     })
-    """
+    
+"""
     
 
 

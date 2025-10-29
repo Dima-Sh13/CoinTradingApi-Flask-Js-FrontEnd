@@ -21,7 +21,7 @@ def json_cleaner(json):
         })
     
     return json_clean
-        
+"""        
 def buy_coin_exchange(coin_from, coin_to, amount_from):
     api = ConexionApi()
     units_to_buy = 0
@@ -38,12 +38,28 @@ def buy_coin_exchange(coin_from, coin_to, amount_from):
         units_to_buy= coin_from_price/coin_to_price    
     
     return units_to_buy
+"""
 
-def prueba():
+def buy_coin_exchange(coin_from, coin_to, amount_from):
+    # amount_from ya debe ser float (si lo llamas desde la ruta corregida)
     api = ConexionApi()
-    prueba_id = {}
-    datos =api.get_first_10()
-    for i in datos["data"]:
-        prueba_id[i["name"]]= i["id"]
+    units_to_buy = 0.0
 
-    return prueba_id    
+    if coin_from == "EUR":
+        coin_from_price = float(amount_from)    
+        coin_to_price = float(api.get_coin_price(coin_to))
+        units_to_buy = coin_from_price / coin_to_price
+    elif coin_to == "EUR":
+        coin_from_price = float(api.get_coin_price(coin_from, amount=amount_from))
+        units_to_buy = coin_from_price * float(amount_from)
+    else:
+        coin_from_price = float(api.get_coin_price(coin_from, amount=amount_from))
+        coin_to_price = float(api.get_coin_price(coin_to))
+        units_to_buy = coin_from_price / coin_to_price
+
+    return units_to_buy
+
+
+
+
+
