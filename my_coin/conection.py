@@ -82,7 +82,7 @@ class ConexionBD():
                 (coin, coin, coin)
             )
             row = cur.fetchall()  
-        return row
+        return row[0][1]
 
     def update_wallet(self, coin):
         amount = self.get_coin_amount(coin)
@@ -97,7 +97,25 @@ class ConexionBD():
                 (coin, amount)
             )
 
+    def get_wallet(self):
+        with sqlite3.connect(self.db_path) as con:
+            cur = con.cursor()
+            cur.execute(
+                """
+                SELECT coin, amount FROM wallet;
+                """
+            )
+            rows = cur.fetchall()
+            return rows
 
+    def get_wallet_by_coin(self,coin):
+         with sqlite3.connect(self.db_path) as con:
+            cur = con.cursor()
+            cur.execute(f"SELECT coin, amount FROM wallet WEHERE {coin} = coin  ;"
+            )
+               
+            rows = cur.fetchall()
+            return rows
 
 class Status():
     def __init__(self):

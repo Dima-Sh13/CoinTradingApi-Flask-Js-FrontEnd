@@ -16,28 +16,35 @@ from my_coin.utils import *
 
 @app.route("/")
 def index():
-    bd=ConexionBD()
     """
     api = ConexionApi()
     datos =api.get_first_100()
     get_coin_ids_test(datos, prueba_coin_id)
     """
-    return render_template("index.html", coins = get_aviable_coins(COIN_ID))
+    bd=ConexionBD()
+    my_coins = bd.get_wallet()
+    return render_template("index.html", myCoins=my_coins , coins = get_aviable_coins(COIN_ID))
     
    
     
 
 @app.route("/api/v1/endpoint1")
 def prueba():
-    api = ConexionApi()
     
+    """
+    api = ConexionApi()
     datos =api.get_first_100()
     prueba_coin_id = get_coin_ids_test(datos)
+    """
+    bd = ConexionBD()
+    datos = bd.get_wallet()
+    datos2 = bd.get_coin_amount("Bitcoin")
+    datos3 = bd.get_coin_amount("Bitcoin")
     return jsonify ({
-        "datos_prueba": get_aviable_coins(datos),
-        #"datos_comop_ahora":get_aviable_coins(COIN_ID),
+        #"datos_prueba": datos,
+        "datos_comop_ahora":datos2
+        #"datos":datos3,
         
-        "status": "ok" 
     })
 
 
@@ -100,8 +107,16 @@ def buy_coin():
     bd=ConexionBD()
     api = ConexionApi()
     datos = request.json
-    pu = api.get_coin_price(datos["moneda_to"])
-    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["moneda_from"],datos["moneda_to"],datos["amount_from"]),pu])
+    if datos["moneda_to"] != "EUR":
+        pu = api.get_coin_price(datos["moneda_to"])
+    else:
+        pu = 1    
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],float(buy_coin_exchange(datos["moneda_from"],datos["moneda_to"],datos["amount_from"])),pu])
+    if datos["moneda_to"] != "EUR":
+        bd.update_wallet(datos["moneda_to"])
+    if datos["moneda_from"] != "EUR":
+        bd.update_wallet(datos["moneda_from"])
+    
     
     return jsonify({
         "message":"Purchase Done!",

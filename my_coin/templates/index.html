@@ -57,7 +57,7 @@
                     <select id="moneda_from_form" class="form-select" style="width:100%;">
                         <option value="" selected disabled>Tu moneda (selecciona)</option>
                         <option value="EUR">EUR</option>
-                        {% for row in amount %}
+                        {% for row in myCoins %}
                             <option value="{{ row[0] }}">{{ row[0] }} - Wallet: {{ row[1] }}</option>
                         {% endfor %}
                     </select>
@@ -67,6 +67,7 @@
                 <div style="flex: 1; display: flex; flex-direction: column;">
                     <select id="moneda_to_form" class="form-select" style="width:100%;">
                         <option value="" selected disabled>Moneda destino (selecciona)</option>
+                        <option value="EUR">EUR</option>
                         {% for row in coins %}
                         <option value="{{ row }}">{{ row }}</option>
                         {% endfor %}
