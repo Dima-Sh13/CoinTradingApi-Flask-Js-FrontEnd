@@ -9,3 +9,10 @@ CREATE TABLE "movements" (
 	"exchange_rate"	NUMERIC NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
+
+CREATE TABLE "wallet" (
+	"id"	INTEGER NOT NULL,
+	"coin"	TEXT NOT NULL UNIQUE,
+	"amount"	INTEGER,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
