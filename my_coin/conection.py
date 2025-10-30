@@ -41,7 +41,7 @@ class ConexionApi(Session):
         response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
         data = response.json()
         unit_price = get_price_from_json(data)  
-        return float(f"{unit_price:.2f}")
+        return float(unit_price)
         
     
         
@@ -51,7 +51,7 @@ class ConexionBD():
         self.db_path = DATA_BASE
 
     def buy_coin(self, params=[]):
-        with sqlite3.connect(self.db_path, timeout=10) as con:
+        with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
             cur.execute(
                 "INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES (?,?,?,?,?,?)",
@@ -65,14 +65,14 @@ class ConexionBD():
         pass
 
     def get_all_movements(self):
-        with sqlite3.connect(self.db_path, timeout=10) as con:
+        with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
             cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_EUR FROM movements;")
             rows = cur.fetchall()
         return rows
 
     def get_coin_amount(self, coin):
-        with sqlite3.connect(self.db_path, timeout=10) as con:
+        with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
             cur.execute(
                 """
