@@ -58,11 +58,7 @@ class ConexionBD():
                 params
             )
 
-    def trade_coin(self, coin_from, coin_to):
-        pass
-
-    def sell_coin(self, coin_from):
-        pass
+  
 
     def get_all_movements(self):
         with sqlite3.connect(self.db_path) as con:
@@ -101,3 +97,16 @@ class ConexionBD():
                 (coin, amount)
             )
 
+
+
+class Status():
+    def __init__(self):
+        self.api = ConexionApi()
+        self.dataBase = ConexionBD()
+
+
+    def invested():
+
+        pass    
+
+    

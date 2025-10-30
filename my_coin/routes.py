@@ -28,9 +28,11 @@ def prueba():
     api = ConexionApi()
     
     datos =api.get_first_10()
-    get_coin_ids_test(datos, prueba_coin_id)
+    prueba_coin_id = get_coin_ids_test(datos)
     return jsonify ({
-        "datos": prueba_coin_id,
+        "datos_prueba": get_aviable_coins(prueba_coin_id),
+        "datos_comop_ahora":get_aviable_coins(COIN_ID),
+        
         "status": "ok" 
     })
 
