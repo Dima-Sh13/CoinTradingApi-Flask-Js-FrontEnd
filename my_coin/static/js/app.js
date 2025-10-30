@@ -157,7 +157,7 @@ function show_movements_handler(){
 
                     const celda_unit_price = document.createElement("td");
                     celda_unit_price.innerHTML = datos[i][5];
-                    fila.appendChild(celda_amount_to);
+                    fila.appendChild(celda_unit_price);
 
                     tabla.appendChild(fila);
 
@@ -184,7 +184,7 @@ function buyMovement(){
     const moneda_from = document.getElementById('moneda_from_form').value;
     const amount_from = document.getElementById('amount_from_form').value;
     const moneda_to = document.getElementById("moneda_to_form").value;
-    const amount_to = document.getElementById('amount_to_form').value;
+    const amount_to = document.getElementById('amount_to').value;
 
     //control de ingreso de datos
     if(moneda_from === ""){
@@ -214,6 +214,7 @@ function buyMovement(){
     )
     
     buyPetition.send( data_json );
+    alert("Compra Realizada!")
 }
 
 function buyPetition_handler(){
@@ -239,17 +240,19 @@ function buyPetition_handler(){
     }
 }
 function cleanModal() {
+    // cogemos todos los valores del formulario y el modal
     const moneda_from = document.getElementById('moneda_from_form');
     const amount_from = document.getElementById('amount_from_form');
     const moneda_to = document.getElementById('moneda_to_form');
     const amount_to = document.getElementById('amount_to');
-
     
     const model_moneda_from = document.getElementById("coin_from_modal");
     const model_amount_from = document.getElementById("amount_from_modal");
     const model_moneda_to = document.getElementById("coin_to_modal");
     const model_amount_to = document.getElementById("amount_to_modal");;
+
     
+    // los vaciamos al cancelar la operacion
     model_moneda_from.textContent = '';
     model_amount_from.textContent = '';
     model_moneda_to.textContent = '';

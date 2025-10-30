@@ -95,7 +95,7 @@ def buy_coin():
     api = ConexionApi()
     datos = request.json
     pu = api.get_coin_price(datos["moneda_to"])
-    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["moneda_from"],datos["moneda_to"]),pu])
+    bd.buy_coin([t_now,datos["moneda_from"],datos["amount_from"],datos["moneda_to"],buy_coin_exchange(datos["moneda_from"],datos["moneda_to"],datos["amount_from"]),pu])
     
     return jsonify({
         "message":"Purchase Done!",

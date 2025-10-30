@@ -54,7 +54,7 @@ class ConexionBD():
         with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
             cur.execute(
-                "INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_EUR) VALUES (?,?,?,?,?,?)",
+                "INSERT INTO movements (datetime, coin_from, amount_from, coin_to, amount_to, price_per_unit) VALUES (?,?,?,?,?,?)",
                 params
             )
 
@@ -67,7 +67,7 @@ class ConexionBD():
     def get_all_movements(self):
         with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
-            cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_EUR FROM movements;")
+            cur.execute("SELECT datetime, coin_from, amount_from, coin_to, amount_to, price_per_unit FROM movements;")
             rows = cur.fetchall()
         return rows
 
