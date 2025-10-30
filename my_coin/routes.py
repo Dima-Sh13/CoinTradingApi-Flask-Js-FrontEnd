@@ -55,7 +55,7 @@ def exchange_rate(moneda_from, moneda_to):
     if not data or "amount" not in data:
         return jsonify({"status":"fail", "mensaje":"No se recibió 'amount' en JSON"}), 400
     try:
-        amount_from = float(data["amount"])
+        amount_from = Decimal(data["amount"])
     except (TypeError, ValueError):
         return jsonify({"status":"fail", "mensaje":"'amount' no es numérico"}), 400
 

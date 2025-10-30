@@ -172,12 +172,12 @@ function show_movements_handler(){
 }
 
 function viewForm(){
-    document.getElementById('trading_form').style.display="block";
+    document.getElementById('conversion_form').style.display="block";
 }
 
 function hideForm(){
-    limpiarCampos();
-    document.getElementById('trading_form').style.display="none";
+    
+    document.getElementById('conversion_form').style.display="none";
 }
 
 function buyMovement(){
@@ -309,6 +309,10 @@ function exchange_rate(){
 window.onload = function(){
    
     movements()
+
+    let boton = document.getElementById("formBtn")
+    boton.addEventListener("click",viewForm)
+    boton.addEventListener("dblclick", hideForm)
    
 }
 
