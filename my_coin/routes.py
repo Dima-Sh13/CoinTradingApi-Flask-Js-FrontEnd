@@ -17,8 +17,12 @@ from my_coin.utils import *
 @app.route("/")
 def index():
     bd=ConexionBD()
-    
-    return render_template("index.html", coins = get_aviable_coins())
+    """
+    api = ConexionApi()
+    datos =api.get_first_100()
+    get_coin_ids_test(datos, prueba_coin_id)
+    """
+    return render_template("index.html", coins = get_aviable_coins(COIN_ID))
     
    
     
@@ -27,11 +31,11 @@ def index():
 def prueba():
     api = ConexionApi()
     
-    datos =api.get_first_10()
+    datos =api.get_first_100()
     prueba_coin_id = get_coin_ids_test(datos)
     return jsonify ({
-        "datos_prueba": get_aviable_coins(prueba_coin_id),
-        "datos_comop_ahora":get_aviable_coins(COIN_ID),
+        "datos_prueba": get_aviable_coins(datos),
+        #"datos_comop_ahora":get_aviable_coins(COIN_ID),
         
         "status": "ok" 
     })

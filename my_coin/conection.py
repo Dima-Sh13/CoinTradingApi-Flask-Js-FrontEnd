@@ -15,7 +15,7 @@ class ConexionApi(Session):
             })
        
 
-    def get_first_10(self):
+    def get_first_100(self):
         self.params = { 
             "limit":"100",
             "convert": "EUR"}
