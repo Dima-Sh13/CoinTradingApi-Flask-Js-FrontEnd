@@ -111,7 +111,7 @@ class ConexionBD():
     def get_wallet_by_coin(self,coin):
          with sqlite3.connect(self.db_path) as con:
             cur = con.cursor()
-            cur.execute(f"SELECT coin, amount FROM wallet WEHERE {coin} = coin  ;"
+            cur.execute(f"SELECT coin, amount FROM wallet WEHERE {coin} = coin;"
             )
                
             rows = cur.fetchall()

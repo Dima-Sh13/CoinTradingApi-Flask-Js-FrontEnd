@@ -36,7 +36,7 @@ function showPurchaseModal() {
 }
 
 function calcularConversion() {
-    // leer campos
+    
     const coin_from = (document.getElementById("moneda_from_form") || {}).value;
     const coin_to   = (document.getElementById("moneda_to_form")   || {}).value;
     const amountRaw = (document.getElementById("amount_from_form") || {}).value;
@@ -52,7 +52,7 @@ function calcularConversion() {
         return;
     }
 
-    // crear XHR NUEVO por petición
+    
     const exchangePetition = new XMLHttpRequest();
     const url = `/api/v1/tasa/${encodeURIComponent(coin_from)}/${encodeURIComponent(coin_to)}`;
 
@@ -99,8 +99,6 @@ function calcularConversion() {
     
 
 }
-
-
 
 
 
@@ -315,6 +313,8 @@ window.onload = function(){
     boton.addEventListener("dblclick", hideForm)
    
 }
+
+
 
 
 
