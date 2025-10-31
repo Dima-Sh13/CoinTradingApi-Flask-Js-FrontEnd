@@ -1,8 +1,8 @@
-console.log("Se vincula bien")
+
 let show_movements = new XMLHttpRequest()
 let buyPetition = new XMLHttpRequest()
-let sellPetiton = new XMLHttpRequest()
 let tradePetition = new XMLHttpRequest()
+
 
 
 
@@ -12,18 +12,6 @@ function movements(){
     show_movements.onload = show_movements_handler;
     show_movements.onerror = function(){alert("No se ha podido completar la peticion de movimientos")}
     show_movements.send();
-}
-
-function exchange(){
-    let moneda_a_cambiar = document.getElementById("moneda_from_form");
-    let amount_from = document.getElementById("amount_from_form")
-    let moneda_to = document.getElementById("moneda_to_form");
-    
-    
-    exchangePetition.open("GET",`/api/v1/${moneda_a_cambiar}/${moneda_to}`);
-    exchangePetition.onload = exchange_rate
-    exchangePetition.onerror = function(){alert("No se ha podido completar la peticion de movimientos")};
-    exchangePetition.send();
 }
 
 function showPurchaseModal() {
@@ -39,14 +27,14 @@ function calcularConversion() {
     
     const coin_from = (document.getElementById("moneda_from_form") || {}).value;
     const coin_to   = (document.getElementById("moneda_to_form")   || {}).value;
-    const amountRaw = (document.getElementById("amount_from_form") || {}).value;
+    const amount_from = (document.getElementById("amount_from_form") || {}).value;
 
-    if (!coin_from || !coin_to || !amountRaw) {
+    if (!coin_from || !coin_to || !amount_from) {
         alert("Por favor completa todos los campos antes de calcular.");
         return;
     }
 
-    const amountNum = Number(String(amountRaw).replace(",", "."));
+    const amountNum = Number(String(amount_from).replace(",", "."));
     if (!isFinite(amountNum) || amountNum <= 0) {
         alert("Introduce una cantidad válida mayor que 0.");
         return;
@@ -80,7 +68,7 @@ function calcularConversion() {
 
             } catch (err) {
                 console.error("Error parseando JSON:", err, exchangePetition.responseText);
-                alert("Respuesta inválida del servidor (ver consola).");
+                alert("Respuesta inválida del servidor");
             }
         } else {
             console.error("Petición fallida:", exchangePetition.status, exchangePetition.statusText);
@@ -99,8 +87,6 @@ function calcularConversion() {
     
 
 }
-
-
 
 function show_movements_handler(){
     if(this.readyState === 4){//para verificar si es una peticion http
@@ -288,21 +274,32 @@ function purchaseModal() {
     model_amount_to.textContent = amount_to;
 }
 
+function status_info() {
+    let invested = document.getElementById("invested_info");
+    let recovered = document.getElementById("recovered_info");
+    let valor_compra = document.getElementById("valor_compra_info");
+    let wallet_value = document.getElementById("wallet_value");
 
-function exchange_rate(){
-    const exchange_coin_rate = JSON.parse(this.responseText);
-    const valor_calculado = exchange_coin_rate.data;
-    
-    let valor_a_recibir = document.getElementById("amount_to_form");
-    valor_a_recibir.value = valor_calculado
+    const statusPetition = new XMLHttpRequest()
 
+    statusPetition.open("GET","/api/v1/status")
+    statusPetition.onload = function () {
+        const data = JSON.parse(statusPetition.responseText);
 
+        invested.textContent = data.invested;
+        recovered.textContent = data.recovered;
+        valor_compra.textContent = data.valorCompra;
+        wallet_value.textContent = data.wallet_value;
 
+    }
+    statusPetition.onerror = function () {
+        alert("No se ha podido recuperar el estado de inversion")
+    }
+    statusPetition.send()
+        
 
 
 }
-//let buy = document.getElementById("btn-buy");
- //buy.addEventListener("click", viewForm)
 
 window.onload = function(){
    

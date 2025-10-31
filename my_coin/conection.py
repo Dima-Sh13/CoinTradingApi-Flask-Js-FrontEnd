@@ -4,11 +4,12 @@ import json
 from config import API_KEY,DATA_BASE
 from my_coin.utils import *
 from my_coin.tools import *
-
+from decimal import Decimal
 class ConexionApi(Session):
-    def __init__(self):
+    def __init__(self,timeout: float = 10.0):
         super().__init__()
         self.BASE_URL = "https://pro-api.coinmarketcap.com"
+        self.timeout = timeout
         self.headers.update({
             'Accepts': 'application/json',
             'X-CMC_PRO_API_KEY': API_KEY,
@@ -19,7 +20,7 @@ class ConexionApi(Session):
         self.params = { 
             "limit":"100",
             "convert": "EUR"}
-        response = self.get(f"{self.BASE_URL}/v1/cryptocurrency/listings/latest")
+        response = self.get(f"{self.BASE_URL}/v1/cryptocurrency/listings/latest", timeout=self.timeout)
         data = response.json()
         return data
 
@@ -38,7 +39,7 @@ class ConexionApi(Session):
             "convert": "EUR",
             
         }
-        response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion")
+        response = self.get(f"{self.BASE_URL}/v2/tools/price-conversion", timeout=self.timeout)
         data = response.json()
         unit_price = get_price_from_json(data)  
         return float(unit_price)
@@ -123,8 +124,44 @@ class Status():
         self.dataBase = ConexionBD()
 
 
-    def invested():
-
-        pass    
-
+    def invested(self):
+        with sqlite3.connect(self.dataBase.db_path) as con:
+            cur = con.cursor()
+            cur.execute("SELECT SUM(amount_from) FROM movements where coin_from = 'EUR' ;")
+            
+            invested = cur.fetchone()
+            if invested[0] == None:
+                invested = 0
+            else:
+                invested = invested[0]
+        return Decimal(invested)
+        
+    def recovered(self):
+        with sqlite3.connect(self.dataBase.db_path) as con:
+            cur = con.cursor()
+            cur.execute("SELECT SUM(amount_to) FROM movements where coin_to = 'EUR' ;")
+            
+            recovered = cur.fetchone()
+            if recovered[0] == None:
+                recovered = 0
+            else:
+                recovered = recovered[0]
+        return Decimal(recovered)
     
+    def valor_compra(self):
+        invertido = self.invested()
+        recuperado = self.recovered()
+        value = invertido- recuperado
+        return value
+    
+    def current_wallet_value(self):
+        total_wallet_value = Decimal()
+        wallet_list= self.dataBase.get_wallet()
+        for i in wallet_list:
+            total_wallet_value += Decimal(self.api.get_coin_price(i[0],i[1]))
+
+        return total_wallet_value
+
+
+        
+        

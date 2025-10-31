@@ -1,7 +1,6 @@
 from . import app
 from flask import redirect, render_template, request, jsonify
 from my_coin.conection import *
-import requests
 from my_coin.models import *
 from datetime import datetime
 ahora = datetime.now()
@@ -68,27 +67,6 @@ def exchange_rate(moneda_from, moneda_to):
     })
 
 
-        
-"""
-@app.route("/api/v1/tasa/<moneda_from>/<moneda_to>/<amount_from>", methods=["POST"])
-def exchange_rate(moneda_from,moneda_to,amount_from):
-    
-    
-    
-    amount_aviable_to_purchase = buy_coin_exchange(moneda_from,moneda_to, amount_from)
-    return jsonify({
-        "purchasedAmount":amount_aviable_to_purchase,
-        "status":"OK"
-
-    })    
-    
-    return jsonify({
-        "datos":amount_from
-    })
-    
-"""
-    
-
 
 @app.route("/api/v1/movimientos", methods =["GET"])
 def all_movements():
@@ -129,7 +107,22 @@ def buy_coin():
 
 @app.route("/api/v1/status")
 def show_status():
-   pass
+   status = Status()
+   invested = status.invested()
+   recovered = status.recovered()
+   valor_compra = status.valor_compra()
+   wallet_value= status.current_wallet_value()
+   
+
+   return jsonify({
+       "invested":invested,
+       "recovered":recovered,
+       "valorCompra":valor_compra,
+       "wallet":wallet_value,
+       "status": "OK"
+
+
+   })
    
     
     
