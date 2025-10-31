@@ -309,6 +309,8 @@ window.onload = function(){
     boton.addEventListener("click",viewForm)
     boton.addEventListener("dblclick", hideForm)
    
+    let purchase_Btn =
+
 }
 
 
